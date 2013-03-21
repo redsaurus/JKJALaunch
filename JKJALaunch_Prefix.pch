@@ -1,0 +1,18 @@
+//
+// Prefix header for all source files of the 'Untitled3' target in the 'Untitled3' project
+//
+
+#ifdef __OBJC__
+    #import <Cocoa/Cocoa.h>
+#endif
+
+enum {
+	MAC_JKJA_VERSION_ERR = -1,
+	MAC_JKJA_VERSION_UNKNOWN,
+	MAC_JKJA_VERSION_MP,
+	MAC_JKJA_VERSION_SP,
+	MAC_JKII_VERSION_MP,
+	MAC_JKII_VERSION_SP,
+	MAC_ET_VERSION_MP,
+	MAC_ALICE_VERSION_SP
+};
