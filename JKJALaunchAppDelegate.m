@@ -285,7 +285,7 @@ NSString * const JKJAForce32BitColour = @"JediForce32";
 		[[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithBool:([openALCheckBox state] == NSOnState)?YES:NO] forKey:JKJAJediOpenAL];
 	}
 	//now launch!
-	[[NSWorkspace sharedWorkspace] launchApplicationAtURL:[NSURL URLWithString:[launchString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]
+	[[NSWorkspace sharedWorkspace] launchApplicationAtURL:[NSURL fileURLWithPath: launchString]
 												  options:NSWorkspaceLaunchDefault 
 											configuration:launchOptions 
 													error:nil];	
