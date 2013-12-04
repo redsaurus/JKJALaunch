@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		1DDD58160DA1D0A300B32029 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DDD58140DA1D0A300B32029 /* MainMenu.xib */; };
 		256AC3DA0F4B6AC300CF3369 /* JKJALaunchAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 256AC3D90F4B6AC300CF3369 /* JKJALaunchAppDelegate.m */; };
+		565E46D5184EA91A008A1762 /* patchapp.dylib in Resources */ = {isa = PBXBuildFile; fileRef = 565E46D2184EA855008A1762 /* patchapp.dylib */; };
+		565E46D6184EA92F008A1762 /* patchapp.c in Sources */ = {isa = PBXBuildFile; fileRef = 565E46C7184EA82E008A1762 /* patchapp.c */; };
 		56A0BB5715F9794F004EA766 /* JKJALaunch.icns in Resources */ = {isa = PBXBuildFile; fileRef = 56A0BB5615F9794F004EA766 /* JKJALaunch.icns */; };
 		56BB0D3D16FA9B380078149C /* aglredirect.c in Sources */ = {isa = PBXBuildFile; fileRef = 56BB0D3B16FA9B380078149C /* aglredirect.c */; };
 		56BB0D3E16FA9B380078149C /* dyld-interposing.h in Headers */ = {isa = PBXBuildFile; fileRef = 56BB0D3C16FA9B380078149C /* dyld-interposing.h */; };
@@ -20,6 +22,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		565E46D3184EA910008A1762 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 565E46C8184EA855008A1762;
+			remoteInfo = patchapp;
+		};
 		56BB0D4616FA9DB20078149C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
@@ -40,6 +49,8 @@
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		565E46C7184EA82E008A1762 /* patchapp.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = patchapp.c; sourceTree = "<group>"; };
+		565E46D2184EA855008A1762 /* patchapp.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = patchapp.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		56A0BB5615F9794F004EA766 /* JKJALaunch.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = JKJALaunch.icns; sourceTree = "<group>"; };
 		56BB0D3716FA9B190078149C /* libAGLredirect.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libAGLredirect.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		56BB0D3B16FA9B380078149C /* aglredirect.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = aglredirect.c; sourceTree = "<group>"; };
@@ -50,6 +61,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		565E46CB184EA855008A1762 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		56BB0D3416FA9B190078149C /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -102,6 +120,7 @@
 			children = (
 				8D1107320486CEB800E47090 /* JKJALaunch.app */,
 				56BB0D3716FA9B190078149C /* libAGLredirect.dylib */,
+				565E46D2184EA855008A1762 /* patchapp.dylib */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -153,6 +172,7 @@
 			children = (
 				56BB0D3B16FA9B380078149C /* aglredirect.c */,
 				56BB0D3C16FA9B380078149C /* dyld-interposing.h */,
+				565E46C7184EA82E008A1762 /* patchapp.c */,
 			);
 			name = "Inserted Libraries";
 			sourceTree = "<group>";
@@ -160,6 +180,13 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
+		565E46CD184EA855008A1762 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		56BB0D3516FA9B190078149C /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -171,6 +198,23 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		565E46C8184EA855008A1762 /* patchapp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 565E46CF184EA855008A1762 /* Build configuration list for PBXNativeTarget "patchapp" */;
+			buildPhases = (
+				565E46C9184EA855008A1762 /* Sources */,
+				565E46CB184EA855008A1762 /* Frameworks */,
+				565E46CD184EA855008A1762 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = patchapp;
+			productName = libAGLredirect;
+			productReference = 565E46D2184EA855008A1762 /* patchapp.dylib */;
+			productType = "com.apple.product-type.library.dynamic";
+		};
 		56BB0D3616FA9B190078149C /* libAGLredirect */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 56BB0D3816FA9B190078149C /* Build configuration list for PBXNativeTarget "libAGLredirect" */;
@@ -199,6 +243,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				565E46D4184EA910008A1762 /* PBXTargetDependency */,
 				56BB0D4716FA9DB20078149C /* PBXTargetDependency */,
 			);
 			name = JKJALaunch;
@@ -225,6 +270,7 @@
 			targets = (
 				8D1107260486CEB800E47090 /* JKJALaunch */,
 				56BB0D3616FA9B190078149C /* libAGLredirect */,
+				565E46C8184EA855008A1762 /* patchapp */,
 			);
 		};
 /* End PBXProject section */
@@ -234,6 +280,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				565E46D5184EA91A008A1762 /* patchapp.dylib in Resources */,
 				56BB0D4816FA9DB70078149C /* libAGLredirect.dylib in Resources */,
 				8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */,
 				1DDD58160DA1D0A300B32029 /* MainMenu.xib in Resources */,
@@ -244,6 +291,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		565E46C9184EA855008A1762 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				565E46D6184EA92F008A1762 /* patchapp.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		56BB0D3316FA9B190078149C /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -264,6 +319,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		565E46D4184EA910008A1762 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 565E46C8184EA855008A1762 /* patchapp */;
+			targetProxy = 565E46D3184EA910008A1762 /* PBXContainerItemProxy */;
+		};
 		56BB0D4716FA9DB20078149C /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 56BB0D3616FA9B190078149C /* libAGLredirect */;
@@ -291,6 +351,59 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		565E46D0184EA855008A1762 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				EXECUTABLE_PREFIX = "";
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				PRODUCT_NAME = patchapp;
+				SDKROOT = macosx10.7;
+			};
+			name = Debug;
+		};
+		565E46D1184EA855008A1762 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				EXECUTABLE_PREFIX = "";
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				PRODUCT_NAME = patchapp;
+				SDKROOT = macosx10.7;
+			};
+			name = Release;
+		};
 		56BB0D3916FA9B190078149C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -314,9 +427,9 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
+				SDKROOT = macosx10.7;
 			};
 			name = Debug;
 		};
@@ -338,9 +451,9 @@
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
+				SDKROOT = macosx10.7;
 			};
 			name = Release;
 		};
@@ -362,6 +475,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				PRODUCT_NAME = JKJALaunch;
 			};
 			name = Debug;
@@ -381,6 +495,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				PRODUCT_NAME = JKJALaunch;
 			};
 			name = Release;
@@ -416,6 +531,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		565E46CF184EA855008A1762 /* Build configuration list for PBXNativeTarget "patchapp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				565E46D0184EA855008A1762 /* Debug */,
+				565E46D1184EA855008A1762 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		56BB0D3816FA9B190078149C /* Build configuration list for PBXNativeTarget "libAGLredirect" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

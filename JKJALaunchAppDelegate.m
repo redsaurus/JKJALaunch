@@ -130,6 +130,21 @@ NSString * const JKJAForce32BitColour = @"JediForce32";
 					[launcherButton setEnabled:YES];
 					[launcherCurrentVersionString setStringValue:@"Current Version Selected: American McGee's Alice™"];
 					break;
+                case MAC_JKJA_VERSION_STEAM:
+                    isValidAppPath = YES;
+                    [launcherButton setEnabled:YES];
+                    [launcherCurrentVersionString setStringValue:@"Current Version Selected: Jedi Academy (Steam)"];
+                    break;
+                case MAC_JKJA_VERSION_APPSTORE:
+                    isValidAppPath = YES;
+                    [launcherButton setEnabled:YES];
+                    [launcherCurrentVersionString setStringValue:@"Current Version Selected: Jedi Academy (App Store)"];
+                    break;
+                case MAC_JKII_VERSION_STEAM:
+                    isValidAppPath = YES;
+                    [launcherButton setEnabled:YES];
+                    [launcherCurrentVersionString setStringValue:@"Current Version Selected: Jedi Knight II (Steam)"];
+                    break;
 			}
 	}
 }
@@ -144,8 +159,17 @@ NSString * const JKJAForce32BitColour = @"JediForce32";
 	}
 	
 	NSString *jampBundleName = [jampBundle objectForInfoDictionaryKey:@"CFBundleName"];
+    NSString *jampBundleIdentifier = [jampBundle objectForInfoDictionaryKey:@"CFBundleIdentifier"];
 	if (jampBundleName == nil){
-		return MAC_JKJA_VERSION_ERR;
+        if (jampBundleIdentifier == nil){
+            return MAC_JKJA_VERSION_ERR;
+        }
+        else if ([jampBundleIdentifier compare: @"com.aspyr.jk2.steam"] == 0){
+            return MAC_JKII_VERSION_STEAM;
+        }
+        else {
+            return MAC_JKJA_VERSION_ERR;
+        }
 	}
 	
 	if([jampBundleName compare:@"Wolfenstein ET"] == 0){
@@ -166,6 +190,20 @@ NSString * const JKJAForce32BitColour = @"JediForce32";
 	else if([jampBundleName compare:@"American McGee's Alice™"] == 0){
 		return MAC_ALICE_VERSION_SP;
 	}
+    else if ([jampBundleName compare:@"Star Wars Jedi Knight: Jedi Academy"] == 0){
+        if (jampBundleIdentifier == nil){
+            return MAC_JKJA_VERSION_ERR;
+        }
+        if ([jampBundleIdentifier compare: @"com.aspyr.jediacademy.appstore"] == 0){
+            return MAC_JKJA_VERSION_APPSTORE;
+        }
+        else if ([jampBundleIdentifier compare: @"com.aspyr.jediacademy.steam"] == 0){
+            return MAC_JKJA_VERSION_STEAM;
+        }
+        else {
+            return MAC_JKJA_VERSION_UNKNOWN;
+        }
+    }
 	else {
 		return MAC_JKJA_VERSION_UNKNOWN;
 	}
@@ -237,10 +275,64 @@ NSString * const JKJAForce32BitColour = @"JediForce32";
 - (IBAction)launchJediAcademy:(id)sender {
 	NSString *launchString = launcherAppPathString;
 	NSString *argsNSString = @"";
+	NSInteger alertPanel;
+	BOOL launchMultiplayer = YES;
+	
+	//Save settings for next time
+	[[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithString:launchString] forKey:JKJAJediApplicationPath];
+	if ([saveOptionsCheckBox state] == NSOnState)
+	{
+		[[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithString:[launcherString stringValue]] forKey:JKJAJediCommandLine];
+		[[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithBool:([use32BitColourCheckBox state] == NSOnState)?YES:NO] forKey:JKJAForce32BitColour];
+		[[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithBool:([openGLErrorCheckBox state] == NSOnState)?YES:NO] forKey:JKJAJediOpenGLErrorCheck];
+		[[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithBool:([openALCheckBox state] == NSOnState)?YES:NO] forKey:JKJAJediOpenAL];
+	}
+
+	//If starting Steam or App Store versions of Jedi Academy or Jedi Knight II, choose MP or SP
+	switch(jediVersionNumber)
+	{
+		case MAC_JKJA_VERSION_STEAM:
+		case MAC_JKJA_VERSION_APPSTORE:
+		case MAC_JKII_VERSION_STEAM:
+			alertPanel = NSRunAlertPanel(@"Choose game mode", @"Choose whether to launch Multiplayer or Singleplayer (Steam only)", @"Multiplayer", @"Singleplayer", nil);
+			launchMultiplayer = (alertPanel == NSAlertDefaultReturn) ? YES : NO;
+			break;
+		default:
+			break;
+	}
+	
+	switch(jediVersionNumber)
+	{
+		case MAC_JKJA_VERSION_APPSTORE:
+			break;
+		case MAC_JKJA_VERSION_STEAM:
+			if (launchMultiplayer)
+			{
+				launchString = [launchString stringByAppendingString:@"/Contents/Jedi Academy MP.app"];
+			}
+			else
+			{
+				launchString = [launchString stringByAppendingString:@"/Contents/Jedi Academy.app"];
+			}
+			break;
+		case MAC_JKII_VERSION_STEAM:
+			if (launchMultiplayer)
+			{
+				launchString = [launchString stringByAppendingString:@"/Contents/Jedi Knight II MP.app"];
+			}
+			break;
+		default:
+			break;
+	}
 	
 	NSDictionary *environmentOptions;
+	//make it so can connect to servers with steam / app store versions
+	if ((jediVersionNumber == MAC_JKJA_VERSION_APPSTORE) || (jediVersionNumber == MAC_JKJA_VERSION_STEAM))
+	{
+		environmentOptions = [NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"%@/Contents/Resources/patchapp.dylib", [[NSBundle mainBundle] bundlePath]] forKey:@"DYLD_INSERT_LIBRARIES"];
+	}
 	//insert OpenGL dylib that ignores ATI FSAA calls
-	if ([openGLErrorCheckBox state] == NSOnState){
+	else if ([openGLErrorCheckBox state] == NSOnState){
 		environmentOptions = [NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"%@/Contents/Resources/libAGLRedirect.dylib", [[NSBundle mainBundle] bundlePath]] forKey:@"DYLD_INSERT_LIBRARIES"];
 	}
 	else{
@@ -276,14 +368,6 @@ NSString * const JKJAForce32BitColour = @"JediForce32";
 		
 	NSDictionary *launchOptions = [NSDictionary dictionaryWithObjectsAndKeys:launchDescriptor,@"NSWorkspaceLaunchConfigurationAppleEvent",environmentOptions,@"NSWorkspaceLaunchConfigurationEnvironment",nil];
 	
-	[[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithString:launchString] forKey:JKJAJediApplicationPath];
-	if ([saveOptionsCheckBox state] == NSOnState)
-	{
-		[[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithString:[launcherString stringValue]] forKey:JKJAJediCommandLine];
-		[[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithBool:([use32BitColourCheckBox state] == NSOnState)?YES:NO] forKey:JKJAForce32BitColour];
-		[[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithBool:([openGLErrorCheckBox state] == NSOnState)?YES:NO] forKey:JKJAJediOpenGLErrorCheck];
-		[[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithBool:([openALCheckBox state] == NSOnState)?YES:NO] forKey:JKJAJediOpenAL];
-	}
 	//now launch!
 	[[NSWorkspace sharedWorkspace] launchApplicationAtURL:[NSURL fileURLWithPath: launchString]
 												  options:NSWorkspaceLaunchDefault 
