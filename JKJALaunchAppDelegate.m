@@ -301,9 +301,34 @@ NSString * const JKJAForce32BitColour = @"JediForce32";
 			break;
 	}
 	
+	
+	NSMutableDictionary *environmentOptions;
+	
+	//make it so can connect to servers with steam / app store versions
+	if ((jediVersionNumber == MAC_JKJA_VERSION_APPSTORE) || (jediVersionNumber == MAC_JKJA_VERSION_STEAM))
+	{
+		environmentOptions = [NSMutableDictionary dictionaryWithObject:[NSString stringWithFormat:@"%@/Contents/Resources/patchapp.dylib", [[NSBundle mainBundle] bundlePath]] forKey:@"DYLD_INSERT_LIBRARIES"];
+	}
+	//insert OpenGL dylib that ignores ATI FSAA calls
+	else if ([openGLErrorCheckBox state] == NSOnState){
+		environmentOptions = [NSMutableDictionary dictionaryWithObject:[NSString stringWithFormat:@"%@/Contents/Resources/libAGLRedirect.dylib", [[NSBundle mainBundle] bundlePath]] forKey:@"DYLD_INSERT_LIBRARIES"];
+	}
+	else{
+		environmentOptions = [NSMutableDictionary dictionaryWithObject:@"" forKey:@"DYLD_INSERT_LIBRARIES"];
+	}
+	
+
 	switch(jediVersionNumber)
 	{
 		case MAC_JKJA_VERSION_APPSTORE:
+			if (launchMultiplayer)
+			{
+				[environmentOptions setObject:@"YS" forKey:@"ASPYR_JAMP"];
+			}
+			else
+			{
+				[environmentOptions setObject:@"NO" forKey:@"ASPYR_JAMP"];
+			}
 			break;
 		case MAC_JKJA_VERSION_STEAM:
 			if (launchMultiplayer)
@@ -324,21 +349,7 @@ NSString * const JKJAForce32BitColour = @"JediForce32";
 		default:
 			break;
 	}
-	
-	NSDictionary *environmentOptions;
-	//make it so can connect to servers with steam / app store versions
-	if ((jediVersionNumber == MAC_JKJA_VERSION_APPSTORE) || (jediVersionNumber == MAC_JKJA_VERSION_STEAM))
-	{
-		environmentOptions = [NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"%@/Contents/Resources/patchapp.dylib", [[NSBundle mainBundle] bundlePath]] forKey:@"DYLD_INSERT_LIBRARIES"];
-	}
-	//insert OpenGL dylib that ignores ATI FSAA calls
-	else if ([openGLErrorCheckBox state] == NSOnState){
-		environmentOptions = [NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"%@/Contents/Resources/libAGLRedirect.dylib", [[NSBundle mainBundle] bundlePath]] forKey:@"DYLD_INSERT_LIBRARIES"];
-	}
-	else{
-		environmentOptions = [NSDictionary dictionaryWithObject:@"" forKey:@"DYLD_INSERT_LIBRARIES"];
-	}	
-	
+		
 	if ([use32BitColourCheckBox state] == NSOnState){
 		argsNSString = [argsNSString stringByAppendingString:@"+set r_colorbits 32 "];
 	}

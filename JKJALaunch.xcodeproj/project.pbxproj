@@ -16,6 +16,8 @@
 		56BB0D3E16FA9B380078149C /* dyld-interposing.h in Headers */ = {isa = PBXBuildFile; fileRef = 56BB0D3C16FA9B380078149C /* dyld-interposing.h */; };
 		56BB0D4016FA9B960078149C /* AGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 56BB0D3F16FA9B960078149C /* AGL.framework */; };
 		56BB0D4816FA9DB70078149C /* libAGLredirect.dylib in Resources */ = {isa = PBXBuildFile; fileRef = 56BB0D3716FA9B190078149C /* libAGLredirect.dylib */; };
+		56D6954C184FEA2500054B23 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 56D6954B184FEA2500054B23 /* CoreFoundation.framework */; };
+		56D6954E184FF45000054B23 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 56D6954D184FF45000054B23 /* Security.framework */; };
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
@@ -56,6 +58,8 @@
 		56BB0D3B16FA9B380078149C /* aglredirect.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = aglredirect.c; sourceTree = "<group>"; };
 		56BB0D3C16FA9B380078149C /* dyld-interposing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "dyld-interposing.h"; sourceTree = "<group>"; };
 		56BB0D3F16FA9B960078149C /* AGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AGL.framework; path = ../../../../../System/Library/Frameworks/AGL.framework; sourceTree = "<group>"; };
+		56D6954B184FEA2500054B23 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
+		56D6954D184FF45000054B23 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		8D1107310486CEB800E47090 /* JKJALaunch-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "JKJALaunch-Info.plist"; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* JKJALaunch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JKJALaunch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -65,6 +69,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				56D6954E184FF45000054B23 /* Security.framework in Frameworks */,
+				56D6954C184FEA2500054B23 /* CoreFoundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -128,6 +134,8 @@
 		29B97314FDCFA39411CA2CEA /* Untitled3 */ = {
 			isa = PBXGroup;
 			children = (
+				56D6954D184FF45000054B23 /* Security.framework */,
+				56D6954B184FEA2500054B23 /* CoreFoundation.framework */,
 				56BB0D2A16FA99790078149C /* Inserted Libraries */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
