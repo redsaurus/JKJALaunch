@@ -7,8 +7,6 @@
 #include <CoreFoundation/CoreFoundation.h>
 #include <Security/Security.h>
 
-#define ATI_FSAA_SAMPLES 510
-
 __attribute__ ((constructor)) void whichProgram( void )
 {
 	

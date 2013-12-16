@@ -1,11 +1,10 @@
 #import "JKJALaunchAppDelegate.h"
 
-
-NSString * const JKJAJediApplicationPath = @"JediApplicationPath";
 NSString * const JKJAJediCommandLine = @"JediCommandLine";
 NSString * const JKJAJediOpenGLErrorCheck = @"JediOpenGL";
 NSString * const JKJAJediOpenAL = @"JediUseOpenAL";
 NSString * const JKJAForce32BitColour = @"JediForce32";
+NSString * const JKJAJediApplicationDictionary = @"JediApplicationDictionary";
 
 @implementation Untitled3AppDelegate
 
@@ -37,8 +36,9 @@ NSString * const JKJAForce32BitColour = @"JediForce32";
 	NSBundle *bundle = [NSBundle mainBundle];
 	NSString *bundlePath = [bundle bundlePath];
 	NSString *curDir = [bundlePath stringByDeletingLastPathComponent];	
-	NSString *jampBundlePath = [curDir stringByAppendingString:@"/Jedi Academy MP.app"];	
-	[defaultValues setObject:jampBundlePath forKey: JKJAJediApplicationPath];
+	NSString *jampBundlePath = [curDir stringByAppendingString:@"/Jedi Academy MP.app"];
+	NSDictionary *defaultDictionary = [[NSDictionary alloc] initWithObjectsAndKeys: jampBundlePath, bundlePath, nil];
+	[defaultValues setObject:defaultDictionary forKey: JKJAJediApplicationDictionary];
 	
 	[[NSUserDefaults standardUserDefaults] registerDefaults: defaultValues];	
 }
@@ -48,20 +48,22 @@ NSString * const JKJAForce32BitColour = @"JediForce32";
 	//set to launch an application in the same folder as the launcher
 	NSBundle *bundle = [NSBundle mainBundle];
 	NSString *bundlePath = [bundle bundlePath];
-	NSString *curDir = [bundlePath stringByDeletingLastPathComponent];	
+	NSString *curDir = [bundlePath stringByDeletingLastPathComponent];
 	NSString *jampBundlePath = [curDir stringByAppendingString:@"/Jedi Academy MP.app"];
-	NSString *applicationDir = [[[NSUserDefaults standardUserDefaults] objectForKey: JKJAJediApplicationPath] stringByDeletingLastPathComponent];
-		
+	
 	[self addObserver:self forKeyPath:@"launcherAppPathString" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:nil];
-	
-	[self setValue:jampBundlePath forKey:@"launcherAppPathString"];
-	
-	//If there is no such Jedi Academy MP.app OR we're set to launch something else
-	//in the same folder as the launcher, read from the user preferences
-	if (!isValidAppPath || ([curDir compare: applicationDir] == 0))
+
+	NSDictionary *applicationsDictionary = [[NSUserDefaults standardUserDefaults] objectForKey: JKJAJediApplicationDictionary];
+	NSString *prefString = [applicationsDictionary objectForKey: bundlePath];
+	if (prefString)
 	{
-		[self setValue:[[NSUserDefaults standardUserDefaults] objectForKey: JKJAJediApplicationPath] forKey:@"launcherAppPathString"];
+		[self setValue:prefString forKey:@"launcherAppPathString"];
 	}
+	else
+	{
+		[self setValue:jampBundlePath forKey:@"launcherAppPathString"];
+	}
+		
 	//Load remaining options from user prefs
 	[launcherString setStringValue:[[NSUserDefaults standardUserDefaults] objectForKey: JKJAJediCommandLine]];
 	[openGLErrorCheckBox setState:([[[NSUserDefaults standardUserDefaults] objectForKey: JKJAJediOpenGLErrorCheck] boolValue])?NSOnState:NSOffState];
@@ -279,7 +281,12 @@ NSString * const JKJAForce32BitColour = @"JediForce32";
 	BOOL launchMultiplayer = YES;
 	
 	//Save settings for next time
-	[[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithString:launchString] forKey:JKJAJediApplicationPath];
+	NSBundle *bundle = [NSBundle mainBundle];
+	NSString *bundlePath = [bundle bundlePath];
+
+	NSMutableDictionary *applicationsDictionary = [NSMutableDictionary dictionaryWithDictionary:[[NSUserDefaults standardUserDefaults] objectForKey: JKJAJediApplicationDictionary]];
+	[applicationsDictionary setObject:[NSString stringWithString:launchString] forKey:[NSString stringWithString:bundlePath]];
+	[[NSUserDefaults standardUserDefaults] setObject:applicationsDictionary forKey:JKJAJediApplicationDictionary];
 	if ([saveOptionsCheckBox state] == NSOnState)
 	{
 		[[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithString:[launcherString stringValue]] forKey:JKJAJediCommandLine];
