@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle"  xmlns:dc="http://purl.org/dc/elements/1.1/">
+   <channel>
+      <title>JKJALaunch Changelog</title>
+      <link>http://redsaurus.net/JKJALaunch/jkjalaunch.xml</link>
+      <description>Most recent changes with links to updates.</description>
+      <language>en</language>
+         <item>
+            <title>Version 1.1</title>
+            <description><![CDATA[<p> Now with App Store and Steam support! </p> ]]></description>
+            <pubDate>Mon, 16 Dec 2013 18:11:00 +0000</pubDate>
+            <enclosure url="http://redsaurus.net/JKJALaunch/7/JKJALaunch.zip" sparkle:version="7" sparkle:shortVersionString="1.1" length="560961" type="application/octet-stream" sparkle:dsaSignature="MC0CFGPTIH65JMXrUj4en1/15NHRdkqFAhUAvt9js5WKRaIcRs6OOkYPLSJfxzE=" />
+         </item>
+
+   </channel>
+</rss>

@@ -11,6 +11,9 @@
 		256AC3DA0F4B6AC300CF3369 /* JKJALaunchAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 256AC3D90F4B6AC300CF3369 /* JKJALaunchAppDelegate.m */; };
 		565E46D5184EA91A008A1762 /* patchapp.dylib in Resources */ = {isa = PBXBuildFile; fileRef = 565E46D2184EA855008A1762 /* patchapp.dylib */; };
 		565E46D6184EA92F008A1762 /* patchapp.c in Sources */ = {isa = PBXBuildFile; fileRef = 565E46C7184EA82E008A1762 /* patchapp.c */; };
+		568B0C46185F76DF00432C2B /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 568B0C45185F76DF00432C2B /* Sparkle.framework */; };
+		568B0C48185F771400432C2B /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 568B0C45185F76DF00432C2B /* Sparkle.framework */; };
+		568B0C4A185F784400432C2B /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = 568B0C49185F784400432C2B /* dsa_pub.pem */; };
 		56A0BB5715F9794F004EA766 /* JKJALaunch.icns in Resources */ = {isa = PBXBuildFile; fileRef = 56A0BB5615F9794F004EA766 /* JKJALaunch.icns */; };
 		56BB0D3D16FA9B380078149C /* aglredirect.c in Sources */ = {isa = PBXBuildFile; fileRef = 56BB0D3B16FA9B380078149C /* aglredirect.c */; };
 		56BB0D3E16FA9B380078149C /* dyld-interposing.h in Headers */ = {isa = PBXBuildFile; fileRef = 56BB0D3C16FA9B380078149C /* dyld-interposing.h */; };
@@ -40,6 +43,19 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		568B0C47185F770000432C2B /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				568B0C48185F771400432C2B /* Sparkle.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		089C165DFE840E0CC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
@@ -53,6 +69,8 @@
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		565E46C7184EA82E008A1762 /* patchapp.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = patchapp.c; sourceTree = "<group>"; };
 		565E46D2184EA855008A1762 /* patchapp.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = patchapp.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+		568B0C45185F76DF00432C2B /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Sparkle.framework; sourceTree = "<group>"; };
+		568B0C49185F784400432C2B /* dsa_pub.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = dsa_pub.pem; sourceTree = "<group>"; };
 		56A0BB5615F9794F004EA766 /* JKJALaunch.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = JKJALaunch.icns; sourceTree = "<group>"; };
 		56BB0D3716FA9B190078149C /* libAGLredirect.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libAGLredirect.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		56BB0D3B16FA9B380078149C /* aglredirect.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = aglredirect.c; sourceTree = "<group>"; };
@@ -87,6 +105,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
+				568B0C46185F76DF00432C2B /* Sparkle.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -158,6 +177,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				568B0C49185F784400432C2B /* dsa_pub.pem */,
 				56A0BB5615F9794F004EA766 /* JKJALaunch.icns */,
 				8D1107310486CEB800E47090 /* JKJALaunch-Info.plist */,
 				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
@@ -169,6 +189,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				568B0C45185F76DF00432C2B /* Sparkle.framework */,
 				1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */,
 				1058C7A2FEA54F0111CA2CBB /* Other Frameworks */,
 			);
@@ -247,6 +268,7 @@
 				8D1107290486CEB800E47090 /* Resources */,
 				8D11072C0486CEB800E47090 /* Sources */,
 				8D11072E0486CEB800E47090 /* Frameworks */,
+				568B0C47185F770000432C2B /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -293,6 +315,7 @@
 				8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */,
 				1DDD58160DA1D0A300B32029 /* MainMenu.xib in Resources */,
 				56A0BB5715F9794F004EA766 /* JKJALaunch.icns in Resources */,
+				568B0C4A185F784400432C2B /* dsa_pub.pem in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -471,6 +494,10 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_MODEL_TUNING = G5;
@@ -494,6 +521,10 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = JKJALaunch_Prefix.pch;
