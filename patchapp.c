@@ -10,7 +10,8 @@
 __attribute__ ((constructor)) void whichProgram( void )
 {
 	
-	unsigned char isMPText[3];
+	char isMPText[3];
+	char *envText;
 	
 	int isMP = 0;
 	
@@ -26,8 +27,13 @@ __attribute__ ((constructor)) void whichProgram( void )
 		mach_vm_protect(mach_task_self(), patchLocation, 2, 0, VM_PROT_EXECUTE | VM_PROT_READ);
 	}
 	
-	strncpy(isMPText, getenv("ASPYR_JAMP"), 3);
-	isMP = strncasecmp(isMPText, "NO", 3);
+	envText = getenv("ASPYR_JAMP");
+	
+	if (envText != NULL)
+	{
+		strncpy(isMPText, envText, 3);
+		isMP = strncasecmp(isMPText, "NO", 3);
+	}
 	
 	//check if we're in a sandbox :/ then mess around with prefs a bit
 	//hacked together with stuff from https://github.com/ole/NSBundle-OBCodeSigningInfo
