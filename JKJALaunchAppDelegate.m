@@ -72,7 +72,12 @@ NSString * const JKJAJediApplicationDictionary = @"JediApplicationDictionary";
 	
 	//Shift on startup or invalid application path brings up the options window
 	NSUInteger launchFlags = [NSEvent modifierFlags];
-	if ((!isValidAppPath) || (NSShiftKeyMask & launchFlags)){
+		
+	SUUpdater *updater = [SUUpdater sharedUpdater];
+	[updater setDelegate: self];
+	[updater checkForUpdateInformation];
+	
+	if ((!isValidAppPath) || (NSShiftKeyMask & launchFlags) || hasNewUpdate){
 		[self toggleOpenGLBox: nil];
 		[self toggleOpenALBox: nil];
 		[disclosureOpenAL setState: NSOffState];
@@ -83,6 +88,16 @@ NSString * const JKJAJediApplicationDictionary = @"JediApplicationDictionary";
 	else {
 		[self launchJediAcademy:nil];
 	}	
+}
+
+- (void)updater:(SUUpdater *)updater didFindValidUpdate:(SUAppcastItem *)update
+{
+	hasNewUpdate = TRUE;
+}
+
+- (void)updaterDidNotFindUpdate:(SUUpdater *)update
+{
+	hasNewUpdate = FALSE;
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context

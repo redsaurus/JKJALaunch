@@ -1,4 +1,5 @@
 #import <Cocoa/Cocoa.h>
+#import <Sparkle/Sparkle.h>
 
 extern NSString * const JKJAJediApplicationPath;
 extern NSString * const JKJAJediCommandLine;
@@ -26,6 +27,7 @@ extern NSString * const JKJAForce32BitColour;
 	NSButton *disclosureOpenGL;
 	NSButton *disclosureOpenAL;
 	BOOL isValidAppPath;
+	BOOL hasNewUpdate;
 }
 
 @property (assign) IBOutlet NSWindow *window;
@@ -56,5 +58,7 @@ extern NSString * const JKJAForce32BitColour;
 - (IBAction) toggleOpenALBox:(id)sender;
 - (IBAction) toggleCommandLineBox:(id)sender;
 
+- (void)updater:(SUUpdater *)updater didFindValidUpdate:(SUAppcastItem *)update;
+- (void)updaterDidNotFindUpdate:(SUUpdater *)update;
 
 @end
