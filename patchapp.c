@@ -4,6 +4,7 @@
 //so that you can connect to such servers.
 
 #include <mach/mach_vm.h>
+#include <mach/mach_init.h>
 #include <CoreFoundation/CoreFoundation.h>
 #include <Security/Security.h>
 
@@ -15,16 +16,24 @@ __attribute__ ((constructor)) void whichProgram( void )
 	
 	int isMP = 0;
 	
-	int patchLocation = 0x3db33;
+	int jampPatchLocation = 0x3db33;
+	int jk2mpPatchLocation = 0x117eb;
 	
 	const char *progname = getprogname();
 		
 	if (strcasecmp(progname, "Jedi Academy MP") == 0)
 	{
-		mach_vm_protect(mach_task_self(), patchLocation, 2, 0, VM_PROT_WRITE | VM_PROT_EXECUTE | VM_PROT_READ);
-		*(char *)patchLocation = 0x90;
-		*(char *)(patchLocation+1) = 0x90;
-		mach_vm_protect(mach_task_self(), patchLocation, 2, 0, VM_PROT_EXECUTE | VM_PROT_READ);
+		mach_vm_protect(mach_task_self(), jampPatchLocation, 2, 0, VM_PROT_WRITE | VM_PROT_EXECUTE | VM_PROT_READ);
+		*(char *)jampPatchLocation = 0x90;
+		*(char *)(jampPatchLocation+1) = 0x90;
+		mach_vm_protect(mach_task_self(), jampPatchLocation, 2, 0, VM_PROT_EXECUTE | VM_PROT_READ);
+	}
+	else if(strcasecmp(progname, "Jedi Knight II MP") == 0)
+	{
+		mach_vm_protect(mach_task_self(), jk2mpPatchLocation, 2, 0, VM_PROT_WRITE | VM_PROT_EXECUTE | VM_PROT_READ);
+		*(char *)jk2mpPatchLocation = 0xEB;
+		mach_vm_protect(mach_task_self(), jk2mpPatchLocation, 2, 0, VM_PROT_EXECUTE | VM_PROT_READ);
+		return;
 	}
 	
 	envText = getenv("ASPYR_JAMP");

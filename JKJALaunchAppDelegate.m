@@ -327,7 +327,7 @@ NSString * const JKJAJediApplicationDictionary = @"JediApplicationDictionary";
 	NSMutableDictionary *environmentOptions;
 	
 	//make it so can connect to servers with steam / app store versions
-	if ((jediVersionNumber == MAC_JKJA_VERSION_APPSTORE) || (jediVersionNumber == MAC_JKJA_VERSION_STEAM))
+	if ((jediVersionNumber == MAC_JKJA_VERSION_APPSTORE) || (jediVersionNumber == MAC_JKJA_VERSION_STEAM) || (jediVersionNumber == MAC_JKII_VERSION_STEAM))
 	{
 		environmentOptions = [NSMutableDictionary dictionaryWithObject:[NSString stringWithFormat:@"%@/Contents/Resources/patchapp.dylib", [[NSBundle mainBundle] bundlePath]] forKey:@"DYLD_INSERT_LIBRARIES"];
 	}
