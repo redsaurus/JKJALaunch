@@ -12,12 +12,15 @@ __attribute__ ((constructor)) void whichProgram( void )
 {
 	
 	char isMPText[3];
+	char isASText[3];
 	char *envText;
 	
 	int isMP = 0;
+	int isJK2AppStore = 0;
 	
 	int jampPatchLocation = 0x3db33;
 	int jk2mpPatchLocation = 0x117eb;
+	int jk2mpPatchLocationAS = 0x115cf;
 	
 	const char *progname = getprogname();
 		
@@ -30,6 +33,16 @@ __attribute__ ((constructor)) void whichProgram( void )
 	}
 	else if(strcasecmp(progname, "Jedi Knight II MP") == 0)
 	{
+		envText = getenv("ASPYR_JKII_AS");
+		if (envText != NULL)
+		{
+			strncpy(isASText, envText, 3);
+			isJK2AppStore = (strncasecmp(isASText, "YS", 3) == 0);
+			if (isJK2AppStore)
+			{
+				jk2mpPatchLocation = jk2mpPatchLocationAS;
+			}
+		}
 		mach_vm_protect(mach_task_self(), jk2mpPatchLocation, 2, 0, VM_PROT_WRITE | VM_PROT_EXECUTE | VM_PROT_READ);
 		*(char *)jk2mpPatchLocation = 0xEB;
 		mach_vm_protect(mach_task_self(), jk2mpPatchLocation, 2, 0, VM_PROT_EXECUTE | VM_PROT_READ);

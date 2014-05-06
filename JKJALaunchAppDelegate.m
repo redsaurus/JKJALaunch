@@ -162,6 +162,11 @@ NSString * const JKJAJediApplicationDictionary = @"JediApplicationDictionary";
                     [launcherButton setEnabled:YES];
                     [launcherCurrentVersionString setStringValue:@"Current Version Selected: Jedi Knight II (Steam)"];
                     break;
+                case MAC_JKII_VERSION_APPSTORE:
+                    isValidAppPath = YES;
+                    [launcherButton setEnabled:YES];
+                    [launcherCurrentVersionString setStringValue:@"Current Version Selected: Jedi Knight II (App Store)"];
+                    break;
 			}
 	}
 }
@@ -184,6 +189,9 @@ NSString * const JKJAJediApplicationDictionary = @"JediApplicationDictionary";
         else if ([jampBundleIdentifier compare: @"com.aspyr.jk2.steam"] == 0){
             return MAC_JKII_VERSION_STEAM;
         }
+		else if ([jampBundleIdentifier compare: @"com.aspyr.jk2"] == 0){
+			return MAC_JKII_VERSION_APPSTORE;
+		}
         else {
             return MAC_JKJA_VERSION_ERR;
         }
@@ -316,6 +324,7 @@ NSString * const JKJAJediApplicationDictionary = @"JediApplicationDictionary";
 		case MAC_JKJA_VERSION_STEAM:
 		case MAC_JKJA_VERSION_APPSTORE:
 		case MAC_JKII_VERSION_STEAM:
+		case MAC_JKII_VERSION_APPSTORE:
 			alertPanel = NSRunAlertPanel(@"Choose game mode", @"Choose whether to launch Multiplayer or Singleplayer (Steam only)", @"Multiplayer", @"Singleplayer", nil);
 			launchMultiplayer = (alertPanel == NSAlertDefaultReturn) ? YES : NO;
 			break;
@@ -327,7 +336,7 @@ NSString * const JKJAJediApplicationDictionary = @"JediApplicationDictionary";
 	NSMutableDictionary *environmentOptions;
 	
 	//make it so can connect to servers with steam / app store versions
-	if ((jediVersionNumber == MAC_JKJA_VERSION_APPSTORE) || (jediVersionNumber == MAC_JKJA_VERSION_STEAM) || (jediVersionNumber == MAC_JKII_VERSION_STEAM))
+	if ((jediVersionNumber == MAC_JKJA_VERSION_APPSTORE) || (jediVersionNumber == MAC_JKJA_VERSION_STEAM) || (jediVersionNumber == MAC_JKII_VERSION_STEAM) || (jediVersionNumber == MAC_JKII_VERSION_APPSTORE))
 	{
 		environmentOptions = [NSMutableDictionary dictionaryWithObject:[NSString stringWithFormat:@"%@/Contents/Resources/patchapp.dylib", [[NSBundle mainBundle] bundlePath]] forKey:@"DYLD_INSERT_LIBRARIES"];
 	}
@@ -362,6 +371,8 @@ NSString * const JKJAJediApplicationDictionary = @"JediApplicationDictionary";
 				launchString = [launchString stringByAppendingString:@"/Contents/Jedi Academy.app"];
 			}
 			break;
+		case MAC_JKII_VERSION_APPSTORE:
+			[environmentOptions setObject:@"YS" forKey:@"ASPYR_JKII_AS"];
 		case MAC_JKII_VERSION_STEAM:
 			if (launchMultiplayer)
 			{
