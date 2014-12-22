@@ -28,6 +28,8 @@ extern NSString * const JKJAForce32BitColour;
 	NSButton *disclosureOpenAL;
 	BOOL isValidAppPath;
 	BOOL hasNewUpdate;
+	NSButton *customMasterServerCheckBox;
+	NSTextField *customMasterServerURL;
 }
 
 @property (assign) IBOutlet NSWindow *window;
@@ -47,7 +49,8 @@ extern NSString * const JKJAForce32BitColour;
 @property (assign) IBOutlet NSBox *openALTextBox;
 @property (assign) IBOutlet NSButton *disclosureOpenGL;
 @property (assign) IBOutlet NSButton *disclosureOpenAL;
-
+@property (assign) IBOutlet NSButton *customMasterServerCheckBox;
+@property (assign) IBOutlet NSTextField *customMasterServerURL;
 
 - (IBAction) launchJediAcademy:(id)sender;
 - (NSInteger)getVersionNumberFromAppPath:(NSString *)appPath;

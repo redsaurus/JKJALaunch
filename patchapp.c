@@ -8,6 +8,8 @@
 #include <CoreFoundation/CoreFoundation.h>
 #include <Security/Security.h>
 
+char *masterServer = NULL;
+
 __attribute__ ((constructor)) void whichProgram( void )
 {
 	
@@ -22,14 +24,27 @@ __attribute__ ((constructor)) void whichProgram( void )
 	int jk2mpPatchLocation = 0x117eb;
 	int jk2mpPatchLocationAS = 0x115cf;
 	
+	int jampMasterServerLocation = 0x393c9;
+	
 	const char *progname = getprogname();
-		
+	
 	if (strcasecmp(progname, "Jedi Academy MP") == 0)
 	{
 		mach_vm_protect(mach_task_self(), jampPatchLocation, 2, 0, VM_PROT_WRITE | VM_PROT_EXECUTE | VM_PROT_READ);
 		*(char *)jampPatchLocation = 0x90;
 		*(char *)(jampPatchLocation+1) = 0x90;
 		mach_vm_protect(mach_task_self(), jampPatchLocation, 2, 0, VM_PROT_EXECUTE | VM_PROT_READ);
+		
+		envText = getenv("JA_MASTERSERVER");
+		
+		if (envText != NULL)
+		{
+			masterServer = (char *)malloc(strlen(envText) + 1);
+			strncpy(masterServer, envText, strlen(envText) + 1);
+			mach_vm_protect(mach_task_self(), jampMasterServerLocation, 4, 0, VM_PROT_WRITE | VM_PROT_EXECUTE | VM_PROT_READ);
+			*(int *)jampMasterServerLocation = (int)masterServer;
+			mach_vm_protect(mach_task_self(), jampMasterServerLocation, 4, 0, VM_PROT_EXECUTE | VM_PROT_READ);
+		}
 	}
 	else if(strcasecmp(progname, "Jedi Knight II MP") == 0)
 	{
@@ -43,9 +58,9 @@ __attribute__ ((constructor)) void whichProgram( void )
 				jk2mpPatchLocation = jk2mpPatchLocationAS;
 			}
 		}
-		mach_vm_protect(mach_task_self(), jk2mpPatchLocation, 2, 0, VM_PROT_WRITE | VM_PROT_EXECUTE | VM_PROT_READ);
+		mach_vm_protect(mach_task_self(), jk2mpPatchLocation, 1, 0, VM_PROT_WRITE | VM_PROT_EXECUTE | VM_PROT_READ);
 		*(char *)jk2mpPatchLocation = 0xEB;
-		mach_vm_protect(mach_task_self(), jk2mpPatchLocation, 2, 0, VM_PROT_EXECUTE | VM_PROT_READ);
+		mach_vm_protect(mach_task_self(), jk2mpPatchLocation, 1, 0, VM_PROT_EXECUTE | VM_PROT_READ);
 		return;
 	}
 	
@@ -84,5 +99,14 @@ __attribute__ ((constructor)) void whichProgram( void )
 			CFPreferencesSetAppValue(CFSTR("DefaultChildApp"), NULL, CFSTR("com.aspyr.jediacademy.appstore"));
 			CFPreferencesSetAppValue(CFSTR("DoNotShowGameGuide"), NULL, CFSTR("com.aspyr.jediacademy.appstore"));
 		}
+	}
+}
+
+__attribute__ ((destructor)) void shutDown( void )
+{
+	if (masterServer)
+	{
+		free(masterServer);
+		masterServer = NULL;
 	}
 }

@@ -5,6 +5,8 @@ NSString * const JKJAJediOpenGLErrorCheck = @"JediOpenGL";
 NSString * const JKJAJediOpenAL = @"JediUseOpenAL";
 NSString * const JKJAForce32BitColour = @"JediForce32";
 NSString * const JKJAJediApplicationDictionary = @"JediApplicationDictionary";
+NSString * const JKJAUseCustomMaster = @"JediUseCustomMaster";
+NSString * const JKJACustomMaster = @"JediCustomMaster";
 
 @implementation Untitled3AppDelegate
 
@@ -25,6 +27,8 @@ NSString * const JKJAJediApplicationDictionary = @"JediApplicationDictionary";
 @synthesize openALTextBox;
 @synthesize disclosureOpenGL;
 @synthesize disclosureOpenAL;
+@synthesize customMasterServerCheckBox;
+@synthesize customMasterServerURL;
 
 + (void) initialize
 {
@@ -33,6 +37,8 @@ NSString * const JKJAJediApplicationDictionary = @"JediApplicationDictionary";
 	[defaultValues setObject:[NSNumber numberWithBool:YES] forKey: JKJAForce32BitColour];
 	[defaultValues setObject:[NSNumber numberWithBool:NO] forKey: JKJAJediOpenAL];
 	[defaultValues setObject:@"" forKey: JKJAJediCommandLine];
+	[defaultValues setObject:[NSNumber numberWithBool:YES] forKey: JKJAUseCustomMaster];
+	[defaultValues setObject:@"master.jkhub.org" forKey: JKJACustomMaster];
 	NSBundle *bundle = [NSBundle mainBundle];
 	NSString *bundlePath = [bundle bundlePath];
 	NSString *curDir = [bundlePath stringByDeletingLastPathComponent];	
@@ -69,6 +75,9 @@ NSString * const JKJAJediApplicationDictionary = @"JediApplicationDictionary";
 	[openGLErrorCheckBox setState:([[[NSUserDefaults standardUserDefaults] objectForKey: JKJAJediOpenGLErrorCheck] boolValue])?NSOnState:NSOffState];
 	[use32BitColourCheckBox setState:([[[NSUserDefaults standardUserDefaults] objectForKey: JKJAForce32BitColour] boolValue])?NSOnState:NSOffState];
 	[openALCheckBox setState:([[[NSUserDefaults standardUserDefaults] objectForKey: JKJAJediOpenAL] boolValue])?NSOnState:NSOffState];
+	
+	[customMasterServerCheckBox setState:([[[NSUserDefaults standardUserDefaults] objectForKey: JKJAUseCustomMaster] boolValue])?NSOnState:NSOffState];
+	[customMasterServerURL setStringValue:[[NSUserDefaults standardUserDefaults] objectForKey: JKJACustomMaster]];
 	
 	//Shift on startup or invalid application path brings up the options window
 	NSUInteger launchFlags = [NSEvent modifierFlags];
@@ -316,6 +325,9 @@ NSString * const JKJAJediApplicationDictionary = @"JediApplicationDictionary";
 		[[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithBool:([use32BitColourCheckBox state] == NSOnState)?YES:NO] forKey:JKJAForce32BitColour];
 		[[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithBool:([openGLErrorCheckBox state] == NSOnState)?YES:NO] forKey:JKJAJediOpenGLErrorCheck];
 		[[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithBool:([openALCheckBox state] == NSOnState)?YES:NO] forKey:JKJAJediOpenAL];
+		
+		[[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithBool:([customMasterServerCheckBox state] == NSOnState)?YES:NO] forKey:JKJAUseCustomMaster];
+		[[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithString:[customMasterServerURL stringValue]] forKey:JKJACustomMaster];
 	}
 
 	//If starting Steam or App Store versions of Jedi Academy or Jedi Knight II, choose MP or SP
@@ -339,6 +351,7 @@ NSString * const JKJAJediApplicationDictionary = @"JediApplicationDictionary";
 	if ((jediVersionNumber == MAC_JKJA_VERSION_APPSTORE) || (jediVersionNumber == MAC_JKJA_VERSION_STEAM) || (jediVersionNumber == MAC_JKII_VERSION_STEAM) || (jediVersionNumber == MAC_JKII_VERSION_APPSTORE))
 	{
 		environmentOptions = [NSMutableDictionary dictionaryWithObject:[NSString stringWithFormat:@"%@/Contents/Resources/patchapp.dylib", [[NSBundle mainBundle] bundlePath]] forKey:@"DYLD_INSERT_LIBRARIES"];
+		[environmentOptions setObject:[customMasterServerURL stringValue] forKey:@"JA_MASTERSERVER"];
 	}
 	//insert OpenGL dylib that ignores ATI FSAA calls
 	else if ([openGLErrorCheckBox state] == NSOnState){
@@ -382,7 +395,7 @@ NSString * const JKJAJediApplicationDictionary = @"JediApplicationDictionary";
 		default:
 			break;
 	}
-		
+	
 	if ([use32BitColourCheckBox state] == NSOnState){
 		argsNSString = [argsNSString stringByAppendingString:@"+set r_colorbits 32 "];
 	}
