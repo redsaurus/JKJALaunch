@@ -14,10 +14,28 @@ When you’re asked to find Jedi Academy MP, you can also select Jedi Academy, J
 
 JKJALaunch uses DYLD_INTERPOSE as found in Webkit.
 
-##New in 1.2!##
+##1.2##
 
 The latest Steam and App Store versions of Jedi Academy (Multiplayer) have a problem with connecting to servers which you do not have all .pk3s for. JKJALaunch now supports launching them and fixes this. Only the Steam version supports command-line options.
 
 JKJALaunch now has better support for multiple copies of the application, so that each copy can be set to launch a different game.
 
-JKJALaunch also now has updating via Sparkle.
+JKJALaunch also now has updating via Sparkle. The Sparkle licence is in Sparkle License.txt.
+
+####1.2.1####
+
+Fixed Steam version crashing.
+
+Improved updater so that it can check for updates even if you don't bring up the options window.
+
+####1.2.2####
+
+Better Steam support for JKII.
+
+####1.2.3####
+
+Better App Store support for JKII.
+
+##New in 1.3!##
+
+Custom master server support for App Store and Steam Jedi Academy.
