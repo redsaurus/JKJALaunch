@@ -176,11 +176,21 @@ NSString * const JKJACustomMaster = @"JediCustomMaster";
                     [launcherButton setEnabled:YES];
                     [launcherCurrentVersionString setStringValue:@"Current Version Selected: Jedi Knight II (App Store)"];
                     break;
+				case MAC_OPENJK_VERSION_SP:
+					isValidAppPath = YES;
+					[launcherButton setEnabled:YES];
+					[launcherCurrentVersionString setStringValue:@"Current Version Selected: OpenJK SP"];
+					break;
+				case MAC_OPENJK_VERSION_MP:
+					isValidAppPath = YES;
+					[launcherButton setEnabled:YES];
+					[launcherCurrentVersionString setStringValue:@"Current Version Selected: OpenJK MP"];
+					break;
 			}
 	}
 }
 
-		
+
 
 - (NSInteger)getVersionNumberFromAppPath:(NSString *)appPath {
 	
@@ -238,6 +248,14 @@ NSString * const JKJACustomMaster = @"JediCustomMaster";
             return MAC_JKJA_VERSION_UNKNOWN;
         }
     }
+	else if ([jampBundleName compare:@"OpenJK"] == 0)
+	{
+		return MAC_OPENJK_VERSION_MP;
+	}
+	else if ([jampBundleName compare:@"OpenJK SP"] == 0)
+	{
+		return MAC_OPENJK_VERSION_SP;
+	}
 	else {
 		return MAC_JKJA_VERSION_UNKNOWN;
 	}
@@ -351,10 +369,13 @@ NSString * const JKJACustomMaster = @"JediCustomMaster";
 	if ((jediVersionNumber == MAC_JKJA_VERSION_APPSTORE) || (jediVersionNumber == MAC_JKJA_VERSION_STEAM) || (jediVersionNumber == MAC_JKII_VERSION_STEAM) || (jediVersionNumber == MAC_JKII_VERSION_APPSTORE))
 	{
 		environmentOptions = [NSMutableDictionary dictionaryWithObject:[NSString stringWithFormat:@"%@/Contents/Resources/patchapp.dylib", [[NSBundle mainBundle] bundlePath]] forKey:@"DYLD_INSERT_LIBRARIES"];
-		[environmentOptions setObject:[customMasterServerURL stringValue] forKey:@"JA_MASTERSERVER"];
+		if ([customMasterServerCheckBox state] == NSOnState)
+		{
+			[environmentOptions setObject:[customMasterServerURL stringValue] forKey:@"JA_MASTERSERVER"];
+		}
 	}
 	//insert OpenGL dylib that ignores ATI FSAA calls
-	else if ([openGLErrorCheckBox state] == NSOnState){
+	else if (jediVersionNumber < MAC_JKJA_VERSION_STEAM && [openGLErrorCheckBox state] == NSOnState){
 		environmentOptions = [NSMutableDictionary dictionaryWithObject:[NSString stringWithFormat:@"%@/Contents/Resources/libAGLRedirect.dylib", [[NSBundle mainBundle] bundlePath]] forKey:@"DYLD_INSERT_LIBRARIES"];
 	}
 	else{
@@ -415,6 +436,13 @@ NSString * const JKJACustomMaster = @"JediCustomMaster";
 	
 	const char *argsCString = [argsNSString cString];
 	
+	NSMutableArray *launchArgs = [[[launcherString stringValue] componentsSeparatedByString:@" "] mutableCopy];
+	if ([customMasterServerCheckBox state] == NSOnState)
+	{
+		NSArray *masterServerArgs = [[NSString stringWithFormat:@"+set sv_master1 %@", [customMasterServerURL stringValue]] componentsSeparatedByString:@" "];
+		[launchArgs addObjectsFromArray: masterServerArgs];
+	}
+	
 	//here is AppleEvent stuff that passes the command line
 	NSAppleEventDescriptor *launchAppDescriptor = [NSAppleEventDescriptor descriptorWithString: launchString];
 	
@@ -423,7 +451,7 @@ NSString * const JKJACustomMaster = @"JediCustomMaster";
 	NSAppleEventDescriptor *launchArgsDescriptor = [NSAppleEventDescriptor descriptorWithDescriptorType: typeChar bytes:argsCString length:strlen(argsCString)];
 	[launchDescriptor setDescriptor:launchArgsDescriptor forKeyword:'CLin'];
 		
-	NSDictionary *launchOptions = [NSDictionary dictionaryWithObjectsAndKeys:launchDescriptor,@"NSWorkspaceLaunchConfigurationAppleEvent",environmentOptions,@"NSWorkspaceLaunchConfigurationEnvironment",nil];
+	NSDictionary *launchOptions = [NSDictionary dictionaryWithObjectsAndKeys:launchDescriptor, NSWorkspaceLaunchConfigurationAppleEvent, environmentOptions, NSWorkspaceLaunchConfigurationEnvironment, launchArgs, NSWorkspaceLaunchConfigurationArguments, nil];
 	
 	//now launch!
 	[[NSWorkspace sharedWorkspace] launchApplicationAtURL:[NSURL fileURLWithPath: launchString]
@@ -438,7 +466,7 @@ NSString * const JKJACustomMaster = @"JediCustomMaster";
 	NSOpenPanel *selectApp = [NSOpenPanel openPanel];
 	[selectApp setAllowsMultipleSelection:NO];
 	[selectApp setPrompt:@"OK"];
-	[selectApp setTitle:@"Select \"Jedi Academy MP\""];
+	[selectApp setTitle:@"Select Jedi Academy"];
 	
 	[selectApp runModal];
 	NSArray *apps = [selectApp filenames];
